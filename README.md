@@ -1,45 +1,44 @@
 # Human Activity Recognition (HAR)
 
-## Introduction
-This project focuses on **Human Activity Recognition (HAR)** using machine learning techniques. HAR is an essential domain in artificial intelligence and wearable computing, with applications in healthcare, sports analytics, and smart environments. The goal is to classify human activities based on sensor data collected from wearable devices.
+This framework focuses on **Human Activity Recognition (HAR)** problems by using machine learning techniques, fine-tuning based on pretrain model such as ResNet50 and Bi-LSTM in combination. The goal is to create a model that can classify human activities when user feed model videos (in any terms of camera angles, resolution, quality).
+<--video demo shortly-->
 
-## Features
-- **Data Processing**: Preprocessing and feature engineering techniques applied to raw sensor data.
-- **Machine Learning Models**: Implementation and evaluation of multiple models for activity classification.
-- **Performance Evaluation**: Model validation using metrics such as accuracy, precision, recall, and F1-score.
-- **Deployment Readiness**: Structured code for potential real-world deployment.
+## News
+- 3-12-2025: Add Hugging Face Space for Web Inference demo.
+## Installation
+### 📥 Clone the Repository
+```bash
+git clone https://github.com/BAoD1nH/BD_HAR_25.git --recursive
+cd BD_HAR_25
+```
 
-## Dataset
-The dataset consists of time-series sensor readings collected from accelerometers and gyroscopes. The data contains labeled activities such as walking, running, sitting, and standing.
+### ⚙️ Environment Setup
+```bash
+pip install -r Source/requirements.txt
+```
 
-## Technologies Used
-- **Programming Language**: Python
-- **Libraries**: NumPy, Pandas, Scikit-learn, TensorFlow/PyTorch (if deep learning is used)
-- **Visualization**: Matplotlib, Seaborn
-- **Notebook Environments**: Jupyter Notebook/Google Colab
+### ⭐ Data preparation
+```bash
+python Source/dataset_download.py
+```
 
-## Implementation Steps
-1. **Data Collection & Preprocessing**
-   - Load and clean raw sensor data
-   - Handle missing values and outliers
-   - Normalize and standardize features
-   
-2. **Feature Engineering**
-   - Extract statistical and time-domain features
-   - Apply dimensionality reduction techniques (PCA, t-SNE)
-   
-3. **Model Training & Evaluation**
-   - Train and test various machine learning models (e.g., Neural Networks (CNN and Bidirectional LSTM))
-   - Evaluate models using cross-validation
-   
-4. **Results Analysis & Visualization**
-   - Compare model performance metrics
-   - Visualize results using confusion matrices and classification reports
-   
-5. **Future Enhancements**
-   - Improve classification accuracy with advanced feature selection
-   - Implement real-time HAR using embedded devices
-   - Extend to multi-modal sensor data for improved robustness
+### 🎨 Training model
+```bash
+python Source/main.py <type-of-dataset> <dataset-path>
+```
+E.g.
+```bash
+python Source/main.py ucf11 dataset/ucf11_updated_mpg
+```
+### 🎯 Inference
+```bash
+python Source/Inference.py <type-of-dataset> <test_video-path> <model-path>
+```
+
+E.g.
+```bash
+python Source/inference.py ucf11 test_videos/basketball.mp4 Source/models/ucf11_lstm_model.pt
+```
 
 ## Contributors
 - **[Hoàng Bảo Khanh]** - [github/hbkhanh22]
@@ -52,13 +51,3 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ```bash
 python <path-to-main.py> <type-of-dataset> <dataset-path>
 ```
-
-## upload to Hugging FACE
-git remote add origin https://huggingface.co/<USERNAME>/<REPONAME>
-cd reponame
-
-git lfs install                       # để đẩy file .pt lớn
-git add .
-git commit -m "Add UCF11 LSTM model"
-git branch -M main                    # đảm bảo nhánh tên main
-git push -u origin main
