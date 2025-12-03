@@ -1,20 +1,24 @@
-import torch
-import cv2
-import numpy as np
-from torchvision import models, transforms
-from torchvision.models import resnet50, ResNet50_Weights
-from lstm import MultiLayerBiLSTMClassifier
-from preprocessing import preprocessingData
-import argparse
 import os
 import json
+import argparse
+import numpy as np
+import torch
+import cv2
+from torchvision import models
+from torchvision.models import ResNet50_Weights
+from lstm import MultiLayerBiLSTMClassifier
+from preprocessing import preprocessingData
+
 
 def load_label_map(dataset):
-	label_path = f"src/label_map_idx2label_{dataset}.json"
+	# Resolve label map relative to this file
+	base = os.path.dirname(__file__)
+	label_path = os.path.join(base, f"label_map_idx2label_{dataset}.json")
 	if not os.path.exists(label_path):
 		raise FileNotFoundError(f"Label map not found: {label_path}")
 	with open(label_path, "r", encoding="utf-8") as f:
 		return json.load(f)
+
 
 def read_video_frames(video_path, num_frames=16):
 	cap = cv2.VideoCapture(video_path)
@@ -42,6 +46,7 @@ def read_video_frames(video_path, num_frames=16):
 
 	return frames[:num_frames]
 
+
 def load_model(model_path, input_size, hidden_size, num_layers, num_classes):
 	device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 	model = MultiLayerBiLSTMClassifier(input_size, hidden_size, num_layers, num_classes).to(device)
@@ -49,11 +54,12 @@ def load_model(model_path, input_size, hidden_size, num_layers, num_classes):
 	model.eval()
 	return model
 
-def inference(dataset, video_path, model_path):
-	num_frames = 32
-	hidden_size = 256
-	num_layers = 2
 
+def predict_activity(dataset, video_path, model_path, num_frames=32, hidden_size=256, num_layers=2):
+	"""
+	Run inference on a single video and return (predicted_class_index, predicted_label).
+	This function is import-friendly for web apps (Gradio/Streamlit).
+	"""
 	device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 	# Load label map and number of classes
@@ -85,7 +91,8 @@ def inference(dataset, video_path, model_path):
 		predicted_class = torch.argmax(outputs, dim=1).item()
 		predicted_label = label_map[str(predicted_class)]
 
-	print(f"Predicted class index: {predicted_class} ({predicted_label})")
+	return predicted_class, predicted_label
+
 
 if __name__ == "__main__":
 	parser = argparse.ArgumentParser(description="Inference on a single video using trained HAR model")
@@ -94,4 +101,5 @@ if __name__ == "__main__":
 	parser.add_argument("model_path", type=str, help="Path to trained model (.pt)")
 	args = parser.parse_args()
 
-	inference(args.dataset.lower(), args.video_path, args.model_path)
+	cls, lbl = predict_activity(args.dataset.lower(), args.video_path, args.model_path)
+	print(f"Predicted class index: {cls} ({lbl})")

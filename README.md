@@ -53,5 +53,12 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 python <path-to-main.py> <type-of-dataset> <dataset-path>
 ```
 
+## upload to Hugging FACE
+git remote add origin https://huggingface.co/<USERNAME>/<REPONAME>
+cd reponame
 
-
+git lfs install                       # để đẩy file .pt lớn
+git add .
+git commit -m "Add UCF11 LSTM model"
+git branch -M main                    # đảm bảo nhánh tên main
+git push -u origin main

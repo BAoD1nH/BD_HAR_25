@@ -1,0 +1,20 @@
+# Minimal + optional extras for full workflow (inference, web, evaluation, training)
+# Note: Install torch/torchvision using the official PyTorch instructions for your CUDA/CPU setup
+numpy>=1.21
+opencv-python>=4.5
+Pillow>=8.0
+# PyTorch / torchvision - pick the right wheel for your system (CPU vs CUDA)
+torch>=1.13.0
+torchvision>=0.14.0
+# Common ML / evaluation / plotting
+scikit-learn>=1.0
+matplotlib>=3.4
+seaborn>=0.11
+# Web UI
+flask>=2.0
+gradio>=3.0
+# Optional utilities (dataset extraction / archives)
+rarfile>=4.0
+patool>=1.12
+# Nice-to-have
+tqdm>=4.0
