@@ -41,8 +41,8 @@ python Source/inference.py ucf11 test_videos/basketball.mp4 Source/models/ucf11_
 ```
 
 ## Contributors
-- **[Hoàng Bảo Khanh]** - [github/hbkhanh22]
-- **[Đinh Nguyễn Gia Bảo]** - [github/BAoD1nH]
+- **[Hoàng Bảo Khanh]** - [github/hbkhanh22], FIT HCMUS-VNU
+- **[Đinh Nguyễn Gia Bảo]** - [github/BAoD1nH], FIT HCMUS-VNU
 
 ## License
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
